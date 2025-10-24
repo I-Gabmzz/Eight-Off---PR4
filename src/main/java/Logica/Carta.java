@@ -11,7 +11,7 @@ public class Carta implements Comparable<Carta> {
     public Carta(int valor, Palo palo) {
         this.valor = valor;
         this.palo = palo;
-        this.color = palo.obtenerColor();
+        this.color = palo.getColor();
 
         if (valor == 14) {
             this.valorBajo = 1;
@@ -36,23 +36,23 @@ public class Carta implements Comparable<Carta> {
 
     @Override
     public int compareTo(Carta otraCarta) {
-        if (this.obtenerValor() != otraCarta.obtenerValor()) {
-            return this.obtenerValor() - otraCarta.obtenerValor();
+        if (this.getValor() != otraCarta.getValor()) {
+            return this.getValor() - otraCarta.getValor();
         }
 
-        return this.palo.obtenerPeso() - otraCarta.obtenerPalo().obtenerPeso();
+        return this.palo.getPeso() - otraCarta.getPalo().getPeso();
     }
 
     public boolean esColorOpuesto(Carta otraCarta) {
-        return !this.color.equals(otraCarta.obtenerColor());
+        return !this.color.equals(otraCarta.getColor());
     }
 
     public boolean esAnteriorEnRango(Carta otraCarta) {
-        return (this.valor + 1) == otraCarta.obtenerValor();
+        return (this.valor + 1) == otraCarta.getValor();
     }
 
     public boolean esSiguienteEnRango(Carta otraCarta) {
-        return (this.valor - 1) == otraCarta.obtenerValor();
+        return (this.valor - 1) == otraCarta.getValor();
     }
 
     public boolean esAs() {
@@ -64,19 +64,19 @@ public class Carta implements Comparable<Carta> {
     }
 
 
-    public int obtenerValor() {
+    public int getValor() {
         return valor;
     }
 
-    public Palo obtenerPalo() {
+    public Palo getPalo() {
         return palo;
     }
 
-    public String obtenerColor() {
+    public String getColor() {
         return color;
     }
 
-    public int obtenerValorBajo() {
+    public int getValorBajo() {
         return valorBajo;
     }
 
@@ -103,6 +103,6 @@ public class Carta implements Comparable<Carta> {
             default:
                 valorComoCadena = String.valueOf(valor);
         }
-        return valorComoCadena + palo.obtenerFigura();
+        return valorComoCadena + palo.getFigura();
     }
 }

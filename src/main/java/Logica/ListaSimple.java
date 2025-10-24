@@ -64,14 +64,20 @@ public class ListaSimple<T> {
     }
 
 
-    public String mostrarLista(){
+    public String mostrarLista() {
         String cadena = "";
-        Nodo<T> iter = inicio;
-        while (iter.getSiguiente() != null){
+        Nodo<T> iter = this.inicio;
+        while (iter != null) {
             cadena += iter.getInfo().toString() + "\n";
             iter = iter.getSiguiente();
         }
-        cadena += iter.getInfo().toString();
         return cadena;
+    }
+
+    public T verInicio() {
+        if (this.inicio == null) {
+            return null;
+        }
+        return this.inicio.getInfo();
     }
 }

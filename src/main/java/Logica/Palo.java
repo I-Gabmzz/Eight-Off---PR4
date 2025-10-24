@@ -16,15 +16,15 @@ public enum Palo {
         this.color = color;
     }
 
-    public int obtenerPeso() {
+    public int getPeso() {
         return peso;
     }
 
-    public String obtenerFigura() {
+    public String getFigura() {
         return figura;
     }
 
-    public String obtenerColor() {
+    public String getColor() {
         return color;
     }
 }
