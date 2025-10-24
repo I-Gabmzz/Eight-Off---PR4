@@ -11,6 +11,8 @@ module com.example.p4eightoff {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
 
-    opens Main to javafx.fxml;
     exports Main;
+    opens Main to javafx.fxml;
+    exports Controladores;
+    opens Controladores to javafx.fxml;
 }
