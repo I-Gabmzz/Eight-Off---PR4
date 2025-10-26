@@ -54,6 +54,7 @@ public class ControladorInterfazInicial {
                     "-fx-focus-color: transparent;" +
                     "-fx-faint-focus-color: transparent;";
 
+    // Metodo que coloca a los botones con un estilo prestablecido como normal
     private void aplicarNormal(Button b, DropShadow sombra) {
         b.setStyle(BOTONES_NORMALES);
         b.setTextFill(Color.WHITE);

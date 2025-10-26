@@ -4,16 +4,21 @@ import Logica.*;
 import Logica.ListaSimple;
 import java.util.List;
 
+// Clase principal que encapsula toda la logica del juego Eight Off
 public class EightOffGame {
+    // Constante para el numero de pilas de fundacion
     private static final int NUMERO_PILAS_FUNDACION = 4;
+    // Constante para el numero de celdas de reserva
     private static final int NUMERO_CELDAS_RESERVA = 8;
+    // Constante para el numero de pilas en el tablero
     private static final int NUMERO_PILAS_TABLERO = 8;
 
-    private Mazo mazo;
-    private Foundation[] pilasDeFundacion;
-    private Reserva[] celdasDeReserva;
-    private Tablero[] pilasDeTablero;
+    private Mazo mazo; // El mazo de cartas del juego
+    private Foundation[] pilasDeFundacion; // Arreglo que contiene las 4 pilas de fundacion
+    private Reserva[] celdasDeReserva; // Arreglo que contiene las 8 celdas de reserva
+    private Tablero[] pilasDeTablero; // Arreglo que contiene las 8 pilas del tablero
 
+    // Metodo constructor que inicializa todos los componentes del juego
     public EightOffGame() {
         this.mazo = new Mazo();
         this.pilasDeFundacion = new Foundation[NUMERO_PILAS_FUNDACION];
@@ -31,6 +36,7 @@ public class EightOffGame {
         this.repartirCartasIniciales();
     }
 
+    // Se encarga de repartir las 48 cartas al tablero y 4 a la reserva
     private void repartirCartasIniciales() {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < NUMERO_PILAS_TABLERO; j++) {
@@ -48,13 +54,20 @@ public class EightOffGame {
         }
     }
 
+    // Metodo getter para obtener una pila de fundacion
     public Foundation getPilaFundacion(int indice) { return this.pilasDeFundacion[indice]; }
+    // Metodo getter para obtener una celda de reserva
     public Reserva getCeldaReserva(int indice) { return this.celdasDeReserva[indice]; }
+    // Metodo getter para obtener una pila del tablero
     public Tablero getPilaTablero(int indice) { return this.pilasDeTablero[indice]; }
+    // Devuelve el arreglo completo de las pilas del tablero
     public Tablero[] getPilasDeTablero() { return pilasDeTablero; }
+    // Devuelve el arreglo completo de las celdas de reserva
     public Reserva[] getCeldasDeReserva() { return celdasDeReserva; }
+    // Devuelve el arreglo completo de las pilas de fundacion
     public Foundation[] getPilasDeFundacion() { return pilasDeFundacion; }
 
+    // Funcion que cuenta cuantas celdas de reserva estan vacias
     private int contarReservasVacias() {
         int contador = 0;
         for (Reserva r : celdasDeReserva) {
@@ -65,6 +78,7 @@ public class EightOffGame {
         return contador;
     }
 
+    // Metodo que calcula el maximo de cartas movibles segun las reservas vacias
     private int calcularMaxCartasMovibles(int indiceOrigen, int indiceDestino) {
         int reservasVacias = contarReservasVacias();
         int tablerosVacios = 0;
@@ -81,6 +95,7 @@ public class EightOffGame {
         return maximo;
     }
 
+    // Funcion que comprueba si una lista de cartas es una escalera del mismo palo y descendente
     private boolean esEscaleraValida(List<Carta> cartas) {
         if (cartas == null || cartas.isEmpty()) return false;
         if (cartas.size() == 1) return true;
@@ -95,6 +110,7 @@ public class EightOffGame {
         return true;
     }
 
+    // Metodo que gestiona la logica para mover una escalera de un tablero a otro
     public boolean moverEscaleraDeTableroATablero(int indiceOrigen, int indiceDestino, int cantidadCartas) {
         if (indiceOrigen == indiceDestino || cantidadCartas <= 0) return false;
         if (indiceOrigen < 0 || indiceOrigen >= pilasDeTablero.length || indiceDestino < 0 || indiceDestino >= pilasDeTablero.length) return false;
@@ -136,6 +152,7 @@ public class EightOffGame {
         return true;
     }
 
+    // Se encarga de mover una carta del tablero a una celda de reserva
     public boolean moverDeTableroAReserva(int indiceTablero, int indiceReserva) {
         Tablero origen = this.pilasDeTablero[indiceTablero];
         Reserva destino = this.celdasDeReserva[indiceReserva];
@@ -151,6 +168,7 @@ public class EightOffGame {
         return true;
     }
 
+    // Metodo que controla el movimiento de una carta del tablero a la fundacion
     public boolean moverDeTableroAFundacion(int indiceTablero, int indiceFundacion) {
         Tablero origen = this.pilasDeTablero[indiceTablero];
         Foundation destino = this.pilasDeFundacion[indiceFundacion];
@@ -167,6 +185,7 @@ public class EightOffGame {
         return true;
     }
 
+    // Este metodo mueve una carta desde la reserva hacia una pila del tablero
     public boolean moverDeReservaATablero(int indiceReserva, int indiceTablero) {
         Reserva origen = this.celdasDeReserva[indiceReserva];
         Tablero destino = this.pilasDeTablero[indiceTablero];
@@ -182,6 +201,7 @@ public class EightOffGame {
         return true;
     }
 
+    // Funcion que mueve una carta de la reserva a su pila de fundacion
     public boolean moverDeReservaAFundacion(int indiceReserva, int indiceFundacion) {
         Reserva origen = this.celdasDeReserva[indiceReserva];
         Foundation destino = this.pilasDeFundacion[indiceFundacion];
@@ -198,7 +218,9 @@ public class EightOffGame {
         return true;
     }
 
+    // Metodo que escanea todo el juego para encontrar un movimiento posible
     public MovimientoPosible buscarPista() {
+        // Revisa movimientos de Reserva a Fundacion
         for (int r = 0; r < celdasDeReserva.length; r++) {
             Reserva origenR = celdasDeReserva[r];
             if (!origenR.estaVacia()) {
@@ -210,6 +232,7 @@ public class EightOffGame {
                 }
             }
         }
+        // Revisa movimientos de Tablero a Fundacion
         for (int t = 0; t < pilasDeTablero.length; t++) {
             Tablero origenT = pilasDeTablero[t];
             Carta cartaT = origenT.getCartaSuperior();
@@ -222,6 +245,7 @@ public class EightOffGame {
             }
         }
 
+        // Revisa movimientos de Reserva a Tablero
         for (int r = 0; r < celdasDeReserva.length; r++) {
             Reserva origenR = celdasDeReserva[r];
             if (!origenR.estaVacia()) {
@@ -234,6 +258,7 @@ public class EightOffGame {
             }
         }
 
+        // Revisa movimientos de Tablero a Tablero
         for (int tOrigen = 0; tOrigen < pilasDeTablero.length; tOrigen++) {
             Tablero origenT = pilasDeTablero[tOrigen];
             List<Carta> cartasOrigen = origenT.getCartasParaVista();
@@ -259,12 +284,12 @@ public class EightOffGame {
                         }
                     }
                 } else {
-
                     break;
                 }
             }
         }
 
+        // Revisa movimientos de Tablero a Reserva
         int primeraReservaVacia = -1;
         for(int r=0; r < celdasDeReserva.length; r++){
             if(celdasDeReserva[r].estaVacia()){ primeraReservaVacia = r; break; }
@@ -273,6 +298,7 @@ public class EightOffGame {
             for (int t = 0; t < pilasDeTablero.length; t++) {
                 Carta cartaT = pilasDeTablero[t].getCartaSuperior();
                 if (cartaT != null) {
+                    // Revisa si la carta esta atorada porque no puede ir a fundacion ni a otro tablero
                     boolean puedeIrAFundacion = false;
                     for (int f = 0; f < pilasDeFundacion.length; f++) { if (pilasDeFundacion[f].sePuedeAgregar(cartaT)) { puedeIrAFundacion = true; break; } }
                     boolean puedeIrATablero = false;

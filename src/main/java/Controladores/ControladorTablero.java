@@ -1,8 +1,8 @@
 package Controladores;
 
+// Imports de la clase
 import Juego.*;
 import Logica.*;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -22,16 +22,17 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
+// Se anuncia la creacion del controlador del tablero que es la clase que controla la logica y la interfaz de usuario del tablero de Eight Off
 public class ControladorTablero {
-    private EightOffGame juego;
-    private boolean undoEnProgreso = false;
-    private MovimientoPosible pistaActual = null;
+    private EightOffGame juego; // Instancia principal del juego que maneja la logica
+    private boolean undoEnProgreso = false; // Bandera para evitar interrupciones mientras se deshace un movimiento
+    private MovimientoPosible pistaActual = null; // Almacena el movimiento de pista sugerido actualmente
 
     // Parametros de la carta
-    private static final double ANCHO_CARTA = 150;
-    private static final double ALTO_CARTA = 200;
-    private static final double RADIO_ESQUINA_CARTA = 10.0;
-    private static final double ESPACIO_VISIBLE_SOLAPADO = 30;
+    private static final double ANCHO_CARTA = 150; // Ancho visual de la carta en pixeles
+    private static final double ALTO_CARTA = 200; // Alto visual de la carta en pixeles
+    private static final double RADIO_ESQUINA_CARTA = 10.0; // Radio de las esquinas redondeadas de la carta
+    private static final double ESPACIO_VISIBLE_SOLAPADO = 30; // Espacio visible entre cartas apiladas en el tablero
 
     // Estilos para las selecciones
     private static final String ESTILO_SLOT_NORMAL = "-fx-background-color: rgba(40, 40, 40, 0.5); -fx-background-radius: 10; -fx-border-color: white; -fx-border-style: solid; -fx-border-width: 1; -fx-border-radius: 10;";
@@ -41,24 +42,26 @@ public class ControladorTablero {
     private static final String ESTILO_PISTA_DESTINO_CARTA = ESTILO_CARTA_VISUAL_BASE + " -fx-effect: dropshadow(gaussian,  rgba(255,109,0,0.9), 20, 0.6, 0, 0);";
     private static final String ESTILO_PISTA_DESTINO_SLOT = ESTILO_SLOT_NORMAL + " -fx-effect: dropshadow(gaussian,  rgba(255,109,0,0.9), 20, 0.6, 0, 0);";
 
-    // Atributos de la seleccion para las pistas.
-    private enum Seleccion { NADA, RESERVA, TABLERO }
-    private Seleccion seleccionActual = Seleccion.NADA;
-    private int indiceSeleccionado = -1;
-    private int cantidadSeleccionada = 1;
+    // Atributos de la seleccion para las pistas
+    private enum Seleccion { NADA, RESERVA, TABLERO } // Enumerador para el tipo de seleccion actual
+    private Seleccion seleccionActual = Seleccion.NADA; // Almacena el tipo de la seleccion actual
+    private int indiceSeleccionado = -1; // Almacena el indice del slot/columna seleccionado
+    private int cantidadSeleccionada = 1; // Almacena la cantidad de cartas seleccionadas (para escaleras)
 
     // Elementos del tablero
-    @FXML private StackPane reserva0, reserva1, reserva2, reserva3, reserva4, reserva5, reserva6, reserva7;
-    @FXML private StackPane fundacion0, fundacion1, fundacion2, fundacion3;
-    @FXML private VBox tableroColumna0, tableroColumna1, tableroColumna2, tableroColumna3, tableroColumna4, tableroColumna5, tableroColumna6, tableroColumna7;
-    @FXML private Button botonPista;
-    @FXML private Button botonMenu;
-    @FXML private Button botonUndo;
-    private StackPane[] reservasSlots;
-    private StackPane[] fundacionesSlots;
-    private VBox[] columnasTableroVBoxes;
-    private StackPane[] tableroSlotsBase;
+    @FXML private StackPane reserva0, reserva1, reserva2, reserva3, reserva4, reserva5, reserva6, reserva7; // Slots de la reserva (celdas libres)
+    @FXML private StackPane fundacion0, fundacion1, fundacion2, fundacion3; // Slots de las fundaciones (pilas de palo)
+    @FXML private VBox tableroColumna0, tableroColumna1, tableroColumna2, tableroColumna3, tableroColumna4, tableroColumna5, tableroColumna6, tableroColumna7; // VBox para cada una de las 8 columnas del tablero
+    @FXML private Button botonPista; // Boton de control para pedir una pista
+    @FXML private Button botonMenu; // Boton de control para regresar al menu
+    @FXML private Button botonUndo; // Boton de control para deshacer un movimiento
+    private StackPane[] reservasSlots; // Arreglo para acceder facilmente a los slots de reserva
+    private StackPane[] fundacionesSlots; // Arreglo para acceder facilmente a los slots de fundacion
+    private VBox[] columnasTableroVBoxes; // Arreglo para acceder facilmente a las VBox del tablero
+    private StackPane[] tableroSlotsBase; // Arreglo para los slots base (espacios vacios) de cada columna
 
+    // Metodo que se ejecuta al iniciar la ventana FXML
+    // Se encarga de agrupar los elementos de la UI en arreglos, configurar los botones e iniciar el juego
     @FXML
     public void initialize() {
         reservasSlots = new StackPane[]{reserva0, reserva1, reserva2, reserva3, reserva4, reserva5, reserva6, reserva7};
@@ -83,13 +86,15 @@ public class ControladorTablero {
         iniciarNuevoJuego();
     }
 
+    // Funcion que crea una nueva instancia del juego y reinicia la interfaz grafica
     private void iniciarNuevoJuego() {
         juego = new EightOffGame();
         limpiarSeleccion();
         dibujar();
     }
 
-
+    // Metodo principal que actualiza toda la interfaz grafica
+    // Llama a las funciones de dibujar reservas, fundaciones y tablero
     private void dibujar() {
         limpiarTodasLasCartasVista();
         dibujarReservas();
@@ -101,6 +106,7 @@ public class ControladorTablero {
         }
     }
 
+    // Se encarga de borrar todas las cartas visuales de la interfaz antes de redibujar
     private void limpiarTodasLasCartasVista() {
         for (StackPane slot : reservasSlots) {
             slot.getChildren().removeIf(node -> node.getUserData() instanceof Carta);
@@ -122,17 +128,17 @@ public class ControladorTablero {
         }
     }
 
+    // Metodo de utilidad para encontrar el indice de un StackPane en un arreglo
     private int getIndex(StackPane[] vector, StackPane elemento) {
         for (int i = 0; i < vector.length; i++) { if (vector[i] == elemento) return i; } return -1;
     }
 
+    // Funcion que dibuja las cartas en las 8 celdas de reserva
     private void dibujarReservas() {
         for (int i = 0; i < reservasSlots.length; i++) {
             StackPane slotReserva = reservasSlots[i];
             Carta cartaLogica = juego.getCeldaReserva(i).getCarta();
-
             boolean esDestinoPistaReserva = pistaActual != null && pistaActual.destinoTipo == MovimientoPosible.TIPO_DESTINO_RESERVA && pistaActual.destinoIndice == i;
-
             boolean esOrigenPistaReserva = pistaActual != null && pistaActual.origenTipo == MovimientoPosible.TIPO_ORIGEN_RESERVA && pistaActual.origenIndice == i;
 
             if (cartaLogica != null) {
@@ -157,6 +163,7 @@ public class ControladorTablero {
         }
     }
 
+    // Se encarga de dibujar la carta superior de cada una de las 4 fundaciones
     private void dibujarFoundations() {
         for (int i = 0; i < fundacionesSlots.length; i++) {
             StackPane slotFundacion = fundacionesSlots[i];
@@ -184,6 +191,7 @@ public class ControladorTablero {
         }
     }
 
+    // Metodo que dibuja todas las cartas apiladas en las 8 columnas del tablero
     private void dibujarTablero() {
         for (int i = 0; i < columnasTableroVBoxes.length; i++) {
             VBox columnaVBox = columnasTableroVBoxes[i];
@@ -247,6 +255,7 @@ public class ControladorTablero {
         }
     }
 
+    // Funcion que genera un StackPane visual para una carta logica
     private StackPane crearNodoCarta(Carta carta) {
         StackPane nodoCarta = new StackPane();
         nodoCarta.setPrefSize(ANCHO_CARTA, ALTO_CARTA);
@@ -275,6 +284,7 @@ public class ControladorTablero {
         return nodoCarta;
     }
 
+    // Metodo de utilidad para convertir el valor numerico de una carta a String (A, K, Q, J, etc)
     private String valorACadena(int valor) {
         return switch (valor) {
             case 14 -> "A";
@@ -285,11 +295,13 @@ public class ControladorTablero {
         };
     }
 
+    // Metodo de utilidad para obtener el simbolo de un palo
     private String paloAFigura(Palo palo) {
         if (palo == null) return "?";
         return palo.getFigura();
     }
 
+    // Metodo que maneja la logica de clic en una de las celdas de reserva
     private void clickEnReserva(int indiceReserva) {
         if (undoEnProgreso) return;
         Carta cartaEnReserva = juego.getCeldaReserva(indiceReserva).getCarta();
@@ -331,6 +343,8 @@ public class ControladorTablero {
                 break;
         }
     }
+
+    // Metodo que maneja la logica de clic en una de las pilas de fundacion
     private void clickEnFoundation(int indiceFundacion) {
         if (undoEnProgreso) return;
 
@@ -373,6 +387,7 @@ public class ControladorTablero {
         }
     }
 
+    // Metodo que maneja la logica de clic en una carta o slot del tablero
     private void clickEnTablearo(int indiceColumna, int indiceCartaEnColumna) {
         if (undoEnProgreso) return;
         List<Carta> cartasColumnaActual = juego.getPilaTablero(indiceColumna).getCartasParaVista();
@@ -424,8 +439,10 @@ public class ControladorTablero {
         }
     }
 
+    // Metodo para reiniciar la seleccion del usuario
     private void limpiarSeleccion() { limpiarSeleccion(true); }
 
+    // Metodo que reinicia la seleccion, con opcion de mantener la pista actual
     private void limpiarSeleccion(boolean borrarPista) {
         seleccionActual = Seleccion.NADA;
         indiceSeleccionado = -1;
@@ -436,6 +453,7 @@ public class ControladorTablero {
         dibujar();
     }
 
+    // Metodo que maneja el evento del boton Undo o deshacer
     @FXML
     private void controladorDeUndo() {
         if (undoEnProgreso) return;
@@ -461,16 +479,18 @@ public class ControladorTablero {
         }
     }
 
+    // Metodo que maneja el evento del boton Menu, regresa a la pantalla inicial
     @FXML
     private void controladorDeMenu() throws IOException {
         Parent raizMenu = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/GUI/InterfazInicial.fxml")));
         Stage ventanaActual = (Stage) botonMenu.getScene().getWindow();
         Scene escenaMenu = new Scene(raizMenu, ventanaActual.getScene().getWidth(), ventanaActual.getScene().getHeight());
         ventanaActual.setScene(escenaMenu);
-        ventanaActual.setTitle("Menú Principal");
+        ventanaActual.setTitle("Menu Principal");
         ventanaActual.show();
     }
 
+    // Metodo que maneja el evento del boton Pista, busca y resalta un movimiento
     @FXML
     private void controladorDePista() {
         limpiarSeleccion(false);
@@ -483,8 +503,8 @@ public class ControladorTablero {
         if (!hayEspacioEnReservas()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Sin Movimientos");
-            alert.setHeaderText("No hay movimientos posibles y las reservas están llenas.");
-            alert.setContentText("¿Regresar al menú?");
+            alert.setHeaderText("No hay movimientos posibles y las reservas estan llenas.");
+            alert.setContentText("¿Regresar al menu?");
             alert.getButtonTypes().setAll(
                     javafx.scene.control.ButtonType.YES,
                     javafx.scene.control.ButtonType.NO
@@ -496,11 +516,13 @@ public class ControladorTablero {
         }
     }
 
+    // Se encarga de habilitar o deshabilitar el boton Undo segun el historial
     private void actualizarBotonUndo() {
         boolean puede = ControlDeMovimientos.puedeDeshacer();
         botonUndo.setDisable(!puede);
     }
 
+    // Funcion que busca el indice de la fundacion correcta para un palo especifico
     private int encontrarIndiceFundacion(Palo paloBuscado) {
         if (paloBuscado == null) return -1;
         for (int i = 0; i < juego.getPilasDeFundacion().length; i++) {
@@ -517,6 +539,7 @@ public class ControladorTablero {
         return -1;
     }
 
+    // Metodo que calcula cuantas cartas forman una escalera valida desde el punto de clic
     private int calcularCantidadEscaleraDesde(List<Carta> cartasColumna, int indiceClicado) {
         if (cartasColumna == null || indiceClicado < 0 || indiceClicado >= cartasColumna.size()) {
             return 0;
@@ -537,6 +560,7 @@ public class ControladorTablero {
         return cantidad;
     }
 
+    // Funcion que comprueba si queda al menos un espacio libre en la reserva
     private boolean hayEspacioEnReservas() {
         for (int i = 0; i < reservasSlots.length; i++) {
             if (juego.getCeldaReserva(i).getCarta() == null) return true;
@@ -544,6 +568,7 @@ public class ControladorTablero {
         return false;
     }
 
+    // Metodo que comprueba si se cumplen las condiciones de victoria
     private boolean juegoGanado() {
         for (int i = 0; i < reservasSlots.length; i++) {
             if (juego.getCeldaReserva(i).getCarta() != null) {
@@ -558,11 +583,12 @@ public class ControladorTablero {
         return true;
     }
 
+    // Se encarga de mostrar una alerta de victoria y regresar al menu
     private void mostrarVictoriaYVolverMenu() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Victoria");
         alert.setHeaderText("Has ganado la partida");
-        alert.setContentText("Todas las cartas fueron colocadas exitosamente.\n\nVolverás al menú principal.");
+        alert.setContentText("Todas las cartas fueron colocadas exitosamente.\n\nVolveras al menu principal.");
         alert.showAndWait();
         try {
             controladorDeMenu();
