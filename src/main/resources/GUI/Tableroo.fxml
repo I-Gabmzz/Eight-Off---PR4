@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" prefHeight="720.0" prefWidth="1280.0"
+            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controladores.ControladorTablero">
+
+    <children>
+        <ImageView fx:id="fondo"
+                   AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                   AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                   preserveRatio="false"
+                   fitWidth="${root.width}" fitHeight="${root.height}">
+            <image>
+                <Image url="@Tablero.png"/>
+            </image>
+        </ImageView>
+
+        <BorderPane fx:id="panelPrincipal"
+                    AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+
+            <padding>
+                <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+            </padding>
+
+            <left>
+                <VBox fx:id="zonaFundacion" alignment="TOP_CENTER" spacing="10.0" prefWidth="120.0">
+                    <padding><Insets top="10.0"/></padding>
+                    <children>
+                        <StackPane fx:id="fundacion0" prefWidth="150.0" prefHeight="200.0" minWidth="150.0" minHeight="200.0"
+                                   style="-fx-background-color: rgba(40,40,40,0.5); -fx-background-radius: 10; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 10;">
+                            <children><Label text="" textFill="white"><font><Font size="60.0"/></font></Label></children>
+                        </StackPane>
+                        <StackPane fx:id="fundacion1" prefWidth="150.0" prefHeight="200.0" minWidth="150.0" minHeight="200.0"
+                                   style="-fx-background-color: rgba(40,40,40,0.5); -fx-background-radius: 10; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 10;">
+                            <children><Label text="" textFill="white"><font><Font size="60.0"/></font></Label></children>
+                        </StackPane>
+                        <StackPane fx:id="fundacion2" prefWidth="150.0" prefHeight="200.0" minWidth="150.0" minHeight="200.0"
+                                   style="-fx-background-color: rgba(40,40,40,0.5); -fx-background-radius: 10; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 10;">
+                            <children><Label text="" textFill="white"><font><Font size="60.0"/></font></Label></children>
+                        </StackPane>
+                        <StackPane fx:id="fundacion3" prefWidth="150.0" prefHeight="200.0" minWidth="150.0" minHeight="200.0"
+                                   style="-fx-background-color: rgba(40,40,40,0.5); -fx-background-radius: 10; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 10;">
+                            <children><Label text="" textFill="white"><font><Font size="60.0"/></font></Label></children>
+                        </StackPane>
+                    </children>
+                </VBox>
+            </left>
+
+            <center>
+                <VBox alignment="TOP_CENTER" spacing="0.0">
+                    <HBox fx:id="zonaReserva" alignment="CENTER" spacing="15.0" prefHeight="170.0" VBox.vgrow="NEVER">
+                        <padding><Insets top="10.0" bottom="20.0"/></padding>
+                        <children>
+                            <StackPane fx:id="reserva0" prefWidth="150.0" prefHeight="200.0" minWidth="150.0" minHeight="200.0"
+                                       style="-fx-background-color: rgba(40,40,40,0.5); -fx-background-radius: 10; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 10;"/>
+                            <StackPane fx:id="reserva1" prefWidth="150.0" prefHeight="200.0" minWidth="150.0" minHeight="200.0"
+                                       style="-fx-background-color: rgba(40,40,40,0.5); -fx-background-radius: 10; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 10;"/>
+                            <StackPane fx:id="reserva2" prefWidth="150.0" prefHeight="200.0" minWidth="150.0" minHeight="200.0"
+                                       style="-fx-background-color: rgba(40,40,40,0.5); -fx-background-radius: 10; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 10;"/>
+                            <StackPane fx:id="reserva3" prefWidth="150.0" prefHeight="200.0" minWidth="150.0" minHeight="200.0"
+                                       style="-fx-background-color: rgba(40,40,40,0.5); -fx-background-radius: 10; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 10;"/>
+                            <StackPane fx:id="reserva4" prefWidth="150.0" prefHeight="200.0" minWidth="150.0" minHeight="200.0"
+                                       style="-fx-background-color: rgba(40,40,40,0.5); -fx-background-radius: 10; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 10;"/>
+                            <StackPane fx:id="reserva5" prefWidth="150.0" prefHeight="200.0" minWidth="150.0" minHeight="200.0"
+                                       style="-fx-background-color: rgba(40,40,40,0.5); -fx-background-radius: 10; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 10;"/>
+                            <StackPane fx:id="reserva6" prefWidth="150.0" prefHeight="200.0" minWidth="150.0" minHeight="200.0"
+                                       style="-fx-background-color: rgba(40,40,40,0.5); -fx-background-radius: 10; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 10;"/>
+                            <StackPane fx:id="reserva7" prefWidth="150.0" prefHeight="200.0" minWidth="150.0" minHeight="200.0"
+                                       style="-fx-background-color: rgba(40,40,40,0.5); -fx-background-radius: 10; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 10;"/>
+                        </children>
+                    </HBox>
+
+                    <HBox alignment="CENTER" spacing="50.0" prefHeight="80.0" minHeight="80.0" VBox.vgrow="NEVER">
+                        <padding><Insets top="10.0" bottom="10.0"/></padding>
+                        <children>
+                            <Button fx:id="botonPista" text="Botón Pista" prefWidth="180.0" prefHeight="50.0"
+                                    style="-fx-background-color: white; -fx-border-color: blue; -fx-border-width: 2; -fx-font-size: 16px; -fx-background-radius: 5; -fx-border-radius: 5;"/>
+                            <Button fx:id="botonMenu" text="Botón Menú" prefWidth="180.0" prefHeight="50.0"
+                                    style="-fx-background-color: white; -fx-border-color: blue; -fx-border-width: 2; -fx-font-size: 16px; -fx-background-radius: 5; -fx-border-radius: 5;"/>
+                            <Button fx:id="botonUndo" text="Botón undo" prefWidth="180.0" prefHeight="50.0"
+                                    style="-fx-background-color: white; -fx-border-color: blue; -fx-border-width: 2; -fx-font-size: 16px; -fx-background-radius: 5; -fx-border-radius: 5;"/>
+                        </children>
+                    </HBox>
+
+                    <HBox fx:id="zonaTablero" alignment="TOP_CENTER" spacing="15.0" VBox.vgrow="ALWAYS">
+                        <padding><Insets top="10.0"/></padding>
+                        <children>
+                            <VBox fx:id="tableroColumna0" alignment="TOP_CENTER" prefWidth="150.0" minWidth="150.0">
+                                <children>
+                                    <StackPane prefWidth="150.0" prefHeight="200.0" minWidth="150.0" minHeight="200.0"
+                                               style="-fx-background-color: rgba(40,40,40,0.5); -fx-background-radius: 10; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 10;"/>
+                                </children>
+                            </VBox>
+                            <VBox fx:id="tableroColumna1" alignment="TOP_CENTER" prefWidth="150.0" minWidth="150.0">
+                                <children>
+                                    <StackPane prefWidth="150.0" prefHeight="200.0" minWidth="150.0" minHeight="200.0"
+                                               style="-fx-background-color: rgba(40,40,40,0.5); -fx-background-radius: 10; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 10;"/>
+                                </children>
+                            </VBox>
+                            <VBox fx:id="tableroColumna2" alignment="TOP_CENTER" prefWidth="150.0" minWidth="150.0">
+                                <children>
+                                    <StackPane prefWidth="150.0" prefHeight="200.0" minWidth="150.0" minHeight="200.0"
+                                               style="-fx-background-color: rgba(40,40,40,0.5); -fx-background-radius: 10; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 10;"/>
+                                </children>
+                            </VBox>
+                            <VBox fx:id="tableroColumna3" alignment="TOP_CENTER" prefWidth="150.0" minWidth="150.0">
+                                <children>
+                                    <StackPane prefWidth="150.0" prefHeight="200.0" minWidth="150.0" minHeight="200.0"
+                                               style="-fx-background-color: rgba(40,40,40,0.5); -fx-background-radius: 10; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 10;"/>
+                                </children>
+                            </VBox>
+                            <VBox fx:id="tableroColumna4" alignment="TOP_CENTER" prefWidth="150.0" minWidth="150.0">
+                                <children>
+                                    <StackPane prefWidth="150.0" prefHeight="200.0" minWidth="150.0" minHeight="200.0"
+                                               style="-fx-background-color: rgba(40,40,40,0.5); -fx-background-radius: 10; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 10;"/>
+                                </children>
+                            </VBox>
+                            <VBox fx:id="tableroColumna5" alignment="TOP_CENTER" prefWidth="150.0" minWidth="150.0">
+                                <children>
+                                    <StackPane prefWidth="150.0" prefHeight="200.0" minWidth="150.0" minHeight="200.0"
+                                               style="-fx-background-color: rgba(40,40,40,0.5); -fx-background-radius: 10; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 10;"/>
+                                </children>
+                            </VBox>
+                            <VBox fx:id="tableroColumna6" alignment="TOP_CENTER" prefWidth="150.0" minWidth="150.0">
+                                <children>
+                                    <StackPane prefWidth="150.0" prefHeight="200.0" minWidth="150.0" minHeight="200.0"
+                                               style="-fx-background-color: rgba(40,40,40,0.5); -fx-background-radius: 10; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 10;"/>
+                                </children>
+                            </VBox>
+                            <VBox fx:id="tableroColumna7" alignment="TOP_CENTER" prefWidth="150.0" minWidth="150.0">
+                                <children>
+                                    <StackPane prefWidth="150.0" prefHeight="200.0" minWidth="150.0" minHeight="200.0"
+                                               style="-fx-background-color: rgba(40,40,40,0.5); -fx-background-radius: 10; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 10;"/>
+                                </children>
+                            </VBox>
+                        </children>
+                    </HBox>
+                </VBox>
+            </center>
+        </BorderPane>
+    </children>
+</AnchorPane>

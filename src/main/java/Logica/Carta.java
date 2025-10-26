@@ -21,18 +21,9 @@ public class Carta implements Comparable<Carta> {
         this.bocaArriba = false;
     }
 
-    public void ponerBocaAbajo() {
-        this.bocaArriba = false;
-    }
-
     public void ponerBocaArriba() {
         this.bocaArriba = true;
     }
-
-    public boolean estaBocaArriba() {
-        return this.bocaArriba;
-    }
-
 
     @Override
     public int compareTo(Carta otraCarta) {
@@ -43,24 +34,8 @@ public class Carta implements Comparable<Carta> {
         return this.palo.getPeso() - otraCarta.getPalo().getPeso();
     }
 
-    public boolean esColorOpuesto(Carta otraCarta) {
-        return !this.color.equals(otraCarta.getColor());
-    }
-
-    public boolean esAnteriorEnRango(Carta otraCarta) {
-        return (this.valor + 1) == otraCarta.getValor();
-    }
-
     public boolean esSiguienteEnRango(Carta otraCarta) {
         return (this.valor - 1) == otraCarta.getValor();
-    }
-
-    public boolean esAs() {
-        return this.valor == 14;
-    }
-
-    public boolean esRey() {
-        return this.valor == 13;
     }
 
 
@@ -70,10 +45,6 @@ public class Carta implements Comparable<Carta> {
 
     public Palo getPalo() {
         return palo;
-    }
-
-    public String getColor() {
-        return color;
     }
 
     public int getValorBajo() {

@@ -18,7 +18,7 @@ import java.io.IOException;
 public class ControladorInterfazInicial {
     // Se declaran los atributos de la clase
     @FXML private ImageView fondo; // Imagen de fondo de la interfaz
-    @FXML private Button botonSimular, botonCreditos, botonSalir; // Botones principales
+    @FXML private Button botonJugar, botonCreditos, botonSalir; // Botones principales
 
     // Estilos para los botones en estado normal, con hover y presionados
     private static final String BOTONES_NORMALES =
@@ -117,7 +117,7 @@ public class ControladorInterfazInicial {
                 fondo.fitHeightProperty().bind(scene.heightProperty());
             }
         });
-        darEstiloAlBoton(botonSimular);
+        darEstiloAlBoton(botonJugar);
         darEstiloAlBoton(botonCreditos);
         darEstiloAlBoton(botonSalir);
     }
@@ -125,8 +125,8 @@ public class ControladorInterfazInicial {
     // Abre la ventana del tablero al presionar "Jugar"
     @FXML
     private void alDarSimular(ActionEvent e) throws IOException {
-        Parent raizTablero = FXMLLoader.load(getClass().getResource("/GUI/Seleccion.fxml"));
-        Stage venActual  = (Stage) botonSimular.getScene().getWindow();
+        Parent raizTablero = FXMLLoader.load(getClass().getResource("/GUI/Tableroo.fxml"));
+        Stage venActual  = (Stage) botonJugar.getScene().getWindow();
         Stage venModo = new Stage();
         venModo.setTitle("Eight Off Tablero");
         venModo.setFullScreenExitHint("");

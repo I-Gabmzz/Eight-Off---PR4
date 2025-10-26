@@ -2,6 +2,9 @@ package Juego;
 
 import Logica.ListaSimple;
 import Logica.Carta;
+import Logica.Nodo;
+
+import java.util.ArrayList;
 
 public class Tablero {
     private ListaSimple<Carta> cartas;
@@ -35,6 +38,17 @@ public class Tablero {
 
     public boolean estaVacia() {
         return this.cartas.verInicio() == null;
+    }
+
+    public ArrayList<Carta> getCartasParaVista() {
+        ArrayList<Carta> listaParaVista = new ArrayList<>();
+        Nodo<Carta> actual = this.cartas.getInicio();
+        while (actual != null) {
+            listaParaVista.add(actual.getInfo());
+            actual = actual.getSiguiente();
+        }
+        java.util.Collections.reverse(listaParaVista);
+        return listaParaVista;
     }
 
     @Override

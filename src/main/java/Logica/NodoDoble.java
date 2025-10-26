@@ -15,9 +15,6 @@ public class NodoDoble<T> {
     public NodoDoble<T> getSiguiente() {
         return siguiente;
     }
-    public NodoDoble<T> getAnterior() {
-        return anterior;
-    }
 
     public void setSiguiente(NodoDoble<T> siguiente) {
         this.siguiente = siguiente;

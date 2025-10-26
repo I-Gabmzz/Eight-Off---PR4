@@ -35,14 +35,6 @@ public class Foundation {
         return this.cartas.verInicio();
     }
 
-    public boolean estaCompleta() {
-        Carta cartaSuperior = getCartaSuperior();
-        if (cartaSuperior == null) {
-            return false;
-        }
-        return cartaSuperior.esRey();
-    }
-
     public boolean estaVacia() {
         return this.cartas.verInicio() == null;
     }
