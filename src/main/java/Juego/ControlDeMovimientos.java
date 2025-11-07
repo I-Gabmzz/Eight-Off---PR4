@@ -10,6 +10,9 @@ public class ControlDeMovimientos {
     private int destinoIndice; // Indice de la pila o celda de destino
     private int cantidad; // Cantidad de cartas movidas
 
+    // Pila basada en ListaSimple que almacena el historial de movimientos
+    private static final ListaSimple<ControlDeMovimientos> pila = new ListaSimple<>();
+
     // Constructor privado que inicializa un nuevo objeto de movimiento
     private ControlDeMovimientos(String tipo, int origen, int destino, int cantidad) {
         this.tipoMovimiento = tipo;
@@ -17,9 +20,6 @@ public class ControlDeMovimientos {
         this.destinoIndice = destino;
         this.cantidad = cantidad;
     }
-
-    // Pila basada en ListaSimple que almacena el historial de movimientos
-    private static final ListaSimple<ControlDeMovimientos> pila = new ListaSimple<>();
 
     // Metodo para crear un movimiento de Tablero a Reserva
     public static ControlDeMovimientos movTableroAReserva(int origen, int destino) {

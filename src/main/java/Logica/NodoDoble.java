@@ -21,6 +21,11 @@ public class NodoDoble<T> {
         return siguiente;
     }
 
+    // Metodo getter que devuelve la referencia al nodo anterior
+    public NodoDoble<T> getAnterior() {
+        return anterior;
+    }
+
     // Se encarga de establecer la referencia al siguiente nodo
     public void setSiguiente(NodoDoble<T> siguiente) {
         this.siguiente = siguiente;
@@ -35,4 +40,5 @@ public class NodoDoble<T> {
     public String toString() {
         return info.toString();
     }
+
 }
