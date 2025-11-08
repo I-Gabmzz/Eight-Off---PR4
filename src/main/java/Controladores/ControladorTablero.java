@@ -1,6 +1,5 @@
 package Controladores;
 
-// Imports de la clase
 import Juego.*;
 import Logica.*;
 import javafx.fxml.FXML;
@@ -21,6 +20,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import javafx.stage.Modality; // <-- AÑADIR IMPORT
 
 // Se anuncia la creacion del controlador del tablero que es la clase que controla la logica y la interfaz de usuario del tablero de Eight Off
 public class ControladorTablero {
@@ -46,7 +46,7 @@ public class ControladorTablero {
     private enum Seleccion { NADA, RESERVA, TABLERO } // Enumerador para el tipo de seleccion actual
     private Seleccion seleccionActual = Seleccion.NADA; // Almacena el tipo de la seleccion actual
     private int indiceSeleccionado = -1; // Almacena el indice del slot/columna seleccionado
-    private int cantidadSeleccionada = 1; // Almacena la cantidad de cartas seleccionadas (para escaleras)
+    private int cantidadSeleccionada = 1; // Almacena la cantidad de cartas seleccionadas
 
     // Elementos del tablero
     @FXML private StackPane reserva0, reserva1, reserva2, reserva3, reserva4, reserva5, reserva6, reserva7; // Slots de la reserva (celdas libres)
@@ -55,6 +55,7 @@ public class ControladorTablero {
     @FXML private Button botonPista; // Boton de control para pedir una pista
     @FXML private Button botonMenu; // Boton de control para regresar al menu
     @FXML private Button botonUndo; // Boton de control para deshacer un movimiento
+    @FXML private Button botonHistorial; // boton de control para abrir el historial
     private StackPane[] reservasSlots; // Arreglo para acceder facilmente a los slots de reserva
     private StackPane[] fundacionesSlots; // Arreglo para acceder facilmente a los slots de fundacion
     private VBox[] columnasTableroVBoxes; // Arreglo para acceder facilmente a las VBox del tablero
@@ -83,6 +84,7 @@ public class ControladorTablero {
         botonUndo.setOnAction(e -> controladorDeUndo());
         botonMenu.setOnAction(e -> { try { controladorDeMenu(); } catch (IOException ex) { ex.printStackTrace(); } });
         botonPista.setOnAction(e -> controladorDePista());
+        botonHistorial.setOnAction(e -> { try { controladorDeHistorial(); } catch (IOException ex) { ex.printStackTrace(); } }); // <-- LINEA NUEVA
         iniciarNuevoJuego();
     }
 
@@ -95,7 +97,7 @@ public class ControladorTablero {
 
     // Metodo principal que actualiza toda la interfaz grafica
     // Llama a las funciones de dibujar reservas, fundaciones y tablero
-    private void dibujar() {
+    public void dibujar() {
         limpiarTodasLasCartasVista();
         dibujarReservas();
         dibujarFoundations();
@@ -457,25 +459,27 @@ public class ControladorTablero {
     @FXML
     private void controladorDeUndo() {
         if (undoEnProgreso) return;
-        if (!ControlDeMovimientos.puedeDeshacer()) {
-            return;
-        }
+
         undoEnProgreso = true;
-        botonUndo.setDisable(true);
+        botonUndo.setDisable(true); // Se desactiva temporalmente
+
         try {
+            // Llama a la nueva funcion centralizada
             boolean deshecho = ControlDeMovimientos.deshacer(
                     juego.getPilasDeTablero(),
                     juego.getCeldasDeReserva(),
                     juego.getPilasDeFundacion()
             );
+
             if (deshecho) {
-                limpiarSeleccion();
-            } else {
+                limpiarSeleccion(); // Limpia seleccion y redibuja
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             undoEnProgreso = false;
+            // 'dibujar()' actualizara el boton de nuevo
+            actualizarBotonUndo();
         }
     }
 
@@ -520,6 +524,27 @@ public class ControladorTablero {
     private void actualizarBotonUndo() {
         boolean puede = ControlDeMovimientos.puedeDeshacer();
         botonUndo.setDisable(!puede);
+    }
+
+    @FXML
+    private void controladorDeHistorial() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Historial.fxml"));
+        Parent root = loader.load();
+
+        ControladorHistorial controladorHistorial = loader.getController();
+
+        controladorHistorial.initData(this, juego);
+
+        Stage stage = new Stage();
+        stage.setTitle("Historial de Movimientos");
+
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(botonHistorial.getScene().getWindow());
+
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.showAndWait();
+        dibujar();
     }
 
     // Funcion que busca el indice de la fundacion correcta para un palo especifico

@@ -220,7 +220,6 @@ public class EightOffGame {
 
     // Metodo que escanea todo el juego para encontrar un movimiento posible
     public MovimientoPosible buscarPista() {
-        // Revisa movimientos de Reserva a Fundacion
         for (int r = 0; r < celdasDeReserva.length; r++) {
             Reserva origenR = celdasDeReserva[r];
             if (!origenR.estaVacia()) {
@@ -232,7 +231,6 @@ public class EightOffGame {
                 }
             }
         }
-        // Revisa movimientos de Tablero a Fundacion
         for (int t = 0; t < pilasDeTablero.length; t++) {
             Tablero origenT = pilasDeTablero[t];
             Carta cartaT = origenT.getCartaSuperior();
@@ -245,7 +243,6 @@ public class EightOffGame {
             }
         }
 
-        // Revisa movimientos de Reserva a Tablero
         for (int r = 0; r < celdasDeReserva.length; r++) {
             Reserva origenR = celdasDeReserva[r];
             if (!origenR.estaVacia()) {
@@ -258,7 +255,6 @@ public class EightOffGame {
             }
         }
 
-        // Revisa movimientos de Tablero a Tablero
         for (int tOrigen = 0; tOrigen < pilasDeTablero.length; tOrigen++) {
             Tablero origenT = pilasDeTablero[tOrigen];
             List<Carta> cartasOrigen = origenT.getCartasParaVista();
@@ -289,7 +285,6 @@ public class EightOffGame {
             }
         }
 
-        // Revisa movimientos de Tablero a Reserva
         int primeraReservaVacia = -1;
         for(int r=0; r < celdasDeReserva.length; r++){
             if(celdasDeReserva[r].estaVacia()){ primeraReservaVacia = r; break; }
@@ -298,7 +293,6 @@ public class EightOffGame {
             for (int t = 0; t < pilasDeTablero.length; t++) {
                 Carta cartaT = pilasDeTablero[t].getCartaSuperior();
                 if (cartaT != null) {
-                    // Revisa si la carta esta atorada porque no puede ir a fundacion ni a otro tablero
                     boolean puedeIrAFundacion = false;
                     for (int f = 0; f < pilasDeFundacion.length; f++) { if (pilasDeFundacion[f].sePuedeAgregar(cartaT)) { puedeIrAFundacion = true; break; } }
                     boolean puedeIrATablero = false;
