@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import javafx.stage.Modality; // <-- AÑADIR IMPORT
+import javafx.stage.Modality;
 
 // Se anuncia la creacion del controlador del tablero que es la clase que controla la logica y la interfaz de usuario del tablero de Eight Off
 public class ControladorTablero {
