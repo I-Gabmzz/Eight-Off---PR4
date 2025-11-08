@@ -80,18 +80,24 @@ public class EightOffGame {
 
     // Metodo que calcula el maximo de cartas movibles segun las reservas vacias
     private int calcularMaxCartasMovibles(int indiceOrigen, int indiceDestino) {
-        int reservasVacias = contarReservasVacias();
-        int tablerosVacios = 0;
-        boolean destinoEstabaVacio = pilasDeTablero[indiceDestino].estaVacia();
+        int k = contarReservasVacias();
+
+        int n = 0;
 
         for (int i = 0; i < pilasDeTablero.length; i++) {
-            if (i == indiceOrigen) continue;
-            if (destinoEstabaVacio && i == indiceDestino) continue;
+            if (i == indiceOrigen) {
+                continue;
+            }
             if (pilasDeTablero[i].estaVacia()) {
-                tablerosVacios++;
+                n++;
             }
         }
-        int maximo = (int) ((reservasVacias + 1) * Math.pow(2, tablerosVacios));
+        int maximo;
+        if (pilasDeTablero[indiceDestino].estaVacia()) {
+            maximo = (k + 1) * n;
+        } else {
+            maximo = (k + 1) * (n + 1);
+        }
         return maximo;
     }
 
@@ -220,7 +226,6 @@ public class EightOffGame {
 
     // Metodo que escanea todo el juego para encontrar un movimiento posible
     public MovimientoPosible buscarPista() {
-        // Revisa movimientos de Reserva a Fundacion
         for (int r = 0; r < celdasDeReserva.length; r++) {
             Reserva origenR = celdasDeReserva[r];
             if (!origenR.estaVacia()) {
@@ -232,7 +237,6 @@ public class EightOffGame {
                 }
             }
         }
-        // Revisa movimientos de Tablero a Fundacion
         for (int t = 0; t < pilasDeTablero.length; t++) {
             Tablero origenT = pilasDeTablero[t];
             Carta cartaT = origenT.getCartaSuperior();
@@ -258,7 +262,6 @@ public class EightOffGame {
             }
         }
 
-        // Revisa movimientos de Tablero a Tablero
         for (int tOrigen = 0; tOrigen < pilasDeTablero.length; tOrigen++) {
             Tablero origenT = pilasDeTablero[tOrigen];
             List<Carta> cartasOrigen = origenT.getCartasParaVista();
@@ -289,7 +292,6 @@ public class EightOffGame {
             }
         }
 
-        // Revisa movimientos de Tablero a Reserva
         int primeraReservaVacia = -1;
         for(int r=0; r < celdasDeReserva.length; r++){
             if(celdasDeReserva[r].estaVacia()){ primeraReservaVacia = r; break; }
