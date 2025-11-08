@@ -249,7 +249,6 @@ public class EightOffGame {
             }
         }
 
-        // Revisa movimientos de Reserva a Tablero
         for (int r = 0; r < celdasDeReserva.length; r++) {
             Reserva origenR = celdasDeReserva[r];
             if (!origenR.estaVacia()) {
@@ -300,7 +299,6 @@ public class EightOffGame {
             for (int t = 0; t < pilasDeTablero.length; t++) {
                 Carta cartaT = pilasDeTablero[t].getCartaSuperior();
                 if (cartaT != null) {
-                    // Revisa si la carta esta atorada porque no puede ir a fundacion ni a otro tablero
                     boolean puedeIrAFundacion = false;
                     for (int f = 0; f < pilasDeFundacion.length; f++) { if (pilasDeFundacion[f].sePuedeAgregar(cartaT)) { puedeIrAFundacion = true; break; } }
                     boolean puedeIrATablero = false;
